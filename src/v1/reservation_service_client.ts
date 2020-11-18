@@ -30,6 +30,11 @@ import * as path from 'path';
 import {Transform} from 'stream';
 import {RequestType} from 'google-gax/build/src/apitypes';
 import * as protos from '../../protos/protos';
+/**
+ * Client JSON configuration object, loaded from
+ * `src/v1/reservation_service_client_config.json`.
+ * This file defines retry strategy and timeouts for all API methods in this library.
+ */
 import * as gapicConfig from './reservation_service_client_config.json';
 
 const version = require('../../../package.json').version;
@@ -97,9 +102,9 @@ export class ReservationServiceClient {
    *     your project ID will be detected automatically.
    * @param {string} [options.apiEndpoint] - The domain name of the
    *     API remote host.
-   * @param {gax.ClientConfig} [options.clientConfig] - client configuration override.
-   *     TODO(@alexander-fenster): link to gax documentation.
-   * @param {boolean} fallback - Use HTTP fallback mode.
+   * @param {gax.ClientConfig} [options.clientConfig] - Client configuration override.
+   *     Follows the structure of {@link gapicConfig}.
+   * @param {boolean} [options.fallback] - Use HTTP fallback mode.
    *     In fallback mode, a special browser-compatible transport implementation is used
    *     instead of gRPC transport. In browser context (if the `window` object is defined)
    *     the fallback mode is enabled automatically; set `options.fallback` to `false`
@@ -112,7 +117,9 @@ export class ReservationServiceClient {
       opts?.servicePath || opts?.apiEndpoint || staticMembers.servicePath;
     const port = opts?.port || staticMembers.port;
     const clientConfig = opts?.clientConfig ?? {};
-    const fallback = opts?.fallback ?? typeof window !== 'undefined';
+    const fallback =
+      opts?.fallback ??
+      (typeof window !== 'undefined' && typeof window?.fetch === 'function');
     opts = Object.assign({servicePath, port, clientConfig, fallback}, opts);
 
     // If scopes are unset in options and we're connecting to a non-default endpoint, set scopes just in case.
@@ -370,7 +377,7 @@ export class ReservationServiceClient {
   // -------------------
   createReservation(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IReservation,
@@ -383,7 +390,7 @@ export class ReservationServiceClient {
   >;
   createReservation(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IReservation,
       | protos.google.cloud.bigquery.reservation.v1.ICreateReservationRequest
@@ -428,7 +435,7 @@ export class ReservationServiceClient {
   createReservation(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IReservation,
           | protos.google.cloud.bigquery.reservation.v1.ICreateReservationRequest
@@ -454,12 +461,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -474,7 +481,7 @@ export class ReservationServiceClient {
   }
   getReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IReservation,
@@ -487,7 +494,7 @@ export class ReservationServiceClient {
   >;
   getReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IReservation,
       | protos.google.cloud.bigquery.reservation.v1.IGetReservationRequest
@@ -527,7 +534,7 @@ export class ReservationServiceClient {
   getReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IReservation,
           | protos.google.cloud.bigquery.reservation.v1.IGetReservationRequest
@@ -553,12 +560,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -573,7 +580,7 @@ export class ReservationServiceClient {
   }
   deleteReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -586,7 +593,7 @@ export class ReservationServiceClient {
   >;
   deleteReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.protobuf.IEmpty,
       | protos.google.cloud.bigquery.reservation.v1.IDeleteReservationRequest
@@ -628,7 +635,7 @@ export class ReservationServiceClient {
   deleteReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.protobuf.IEmpty,
           | protos.google.cloud.bigquery.reservation.v1.IDeleteReservationRequest
@@ -654,12 +661,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -674,7 +681,7 @@ export class ReservationServiceClient {
   }
   updateReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IReservation,
@@ -687,7 +694,7 @@ export class ReservationServiceClient {
   >;
   updateReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IReservation,
       | protos.google.cloud.bigquery.reservation.v1.IUpdateReservationRequest
@@ -728,7 +735,7 @@ export class ReservationServiceClient {
   updateReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IReservation,
           | protos.google.cloud.bigquery.reservation.v1.IUpdateReservationRequest
@@ -754,12 +761,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -774,7 +781,7 @@ export class ReservationServiceClient {
   }
   createCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateCapacityCommitmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
@@ -787,7 +794,7 @@ export class ReservationServiceClient {
   >;
   createCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateCapacityCommitmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
       | protos.google.cloud.bigquery.reservation.v1.ICreateCapacityCommitmentRequest
@@ -832,7 +839,7 @@ export class ReservationServiceClient {
   createCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateCapacityCommitmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
           | protos.google.cloud.bigquery.reservation.v1.ICreateCapacityCommitmentRequest
@@ -858,12 +865,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -882,7 +889,7 @@ export class ReservationServiceClient {
   }
   getCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IGetCapacityCommitmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
@@ -895,7 +902,7 @@ export class ReservationServiceClient {
   >;
   getCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IGetCapacityCommitmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
       | protos.google.cloud.bigquery.reservation.v1.IGetCapacityCommitmentRequest
@@ -935,7 +942,7 @@ export class ReservationServiceClient {
   getCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IGetCapacityCommitmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
           | protos.google.cloud.bigquery.reservation.v1.IGetCapacityCommitmentRequest
@@ -961,12 +968,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -981,7 +988,7 @@ export class ReservationServiceClient {
   }
   deleteCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteCapacityCommitmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -994,7 +1001,7 @@ export class ReservationServiceClient {
   >;
   deleteCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteCapacityCommitmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.protobuf.IEmpty,
       | protos.google.cloud.bigquery.reservation.v1.IDeleteCapacityCommitmentRequest
@@ -1036,7 +1043,7 @@ export class ReservationServiceClient {
   deleteCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteCapacityCommitmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.protobuf.IEmpty,
           | protos.google.cloud.bigquery.reservation.v1.IDeleteCapacityCommitmentRequest
@@ -1062,12 +1069,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1086,7 +1093,7 @@ export class ReservationServiceClient {
   }
   updateCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateCapacityCommitmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
@@ -1099,7 +1106,7 @@ export class ReservationServiceClient {
   >;
   updateCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateCapacityCommitmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
       | protos.google.cloud.bigquery.reservation.v1.IUpdateCapacityCommitmentRequest
@@ -1146,7 +1153,7 @@ export class ReservationServiceClient {
   updateCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateCapacityCommitmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
           | protos.google.cloud.bigquery.reservation.v1.IUpdateCapacityCommitmentRequest
@@ -1172,12 +1179,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1196,7 +1203,7 @@ export class ReservationServiceClient {
   }
   splitCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentResponse,
@@ -1209,7 +1216,7 @@ export class ReservationServiceClient {
   >;
   splitCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentResponse,
       | protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentRequest
@@ -1258,7 +1265,7 @@ export class ReservationServiceClient {
   splitCapacityCommitment(
     request: protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentResponse,
           | protos.google.cloud.bigquery.reservation.v1.ISplitCapacityCommitmentRequest
@@ -1284,12 +1291,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1308,7 +1315,7 @@ export class ReservationServiceClient {
   }
   mergeCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IMergeCapacityCommitmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
@@ -1321,7 +1328,7 @@ export class ReservationServiceClient {
   >;
   mergeCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IMergeCapacityCommitmentsRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
       | protos.google.cloud.bigquery.reservation.v1.IMergeCapacityCommitmentsRequest
@@ -1373,7 +1380,7 @@ export class ReservationServiceClient {
   mergeCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IMergeCapacityCommitmentsRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment,
           | protos.google.cloud.bigquery.reservation.v1.IMergeCapacityCommitmentsRequest
@@ -1399,12 +1406,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1423,7 +1430,7 @@ export class ReservationServiceClient {
   }
   createAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateAssignmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IAssignment,
@@ -1436,7 +1443,7 @@ export class ReservationServiceClient {
   >;
   createAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateAssignmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IAssignment,
       | protos.google.cloud.bigquery.reservation.v1.ICreateAssignmentRequest
@@ -1507,7 +1514,7 @@ export class ReservationServiceClient {
   createAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.ICreateAssignmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IAssignment,
           | protos.google.cloud.bigquery.reservation.v1.ICreateAssignmentRequest
@@ -1533,12 +1540,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1553,7 +1560,7 @@ export class ReservationServiceClient {
   }
   deleteAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteAssignmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.protobuf.IEmpty,
@@ -1566,7 +1573,7 @@ export class ReservationServiceClient {
   >;
   deleteAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteAssignmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.protobuf.IEmpty,
       | protos.google.cloud.bigquery.reservation.v1.IDeleteAssignmentRequest
@@ -1620,7 +1627,7 @@ export class ReservationServiceClient {
   deleteAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IDeleteAssignmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.protobuf.IEmpty,
           | protos.google.cloud.bigquery.reservation.v1.IDeleteAssignmentRequest
@@ -1646,12 +1653,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1666,7 +1673,7 @@ export class ReservationServiceClient {
   }
   moveAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IMoveAssignmentRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IAssignment,
@@ -1679,7 +1686,7 @@ export class ReservationServiceClient {
   >;
   moveAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IMoveAssignmentRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IAssignment,
       | protos.google.cloud.bigquery.reservation.v1.IMoveAssignmentRequest
@@ -1727,7 +1734,7 @@ export class ReservationServiceClient {
   moveAssignment(
     request: protos.google.cloud.bigquery.reservation.v1.IMoveAssignmentRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IAssignment,
           | protos.google.cloud.bigquery.reservation.v1.IMoveAssignmentRequest
@@ -1753,12 +1760,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1773,7 +1780,7 @@ export class ReservationServiceClient {
   }
   getBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetBiReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IBiReservation,
@@ -1786,7 +1793,7 @@ export class ReservationServiceClient {
   >;
   getBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetBiReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IBiReservation,
       | protos.google.cloud.bigquery.reservation.v1.IGetBiReservationRequest
@@ -1826,7 +1833,7 @@ export class ReservationServiceClient {
   getBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IGetBiReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IBiReservation,
           | protos.google.cloud.bigquery.reservation.v1.IGetBiReservationRequest
@@ -1852,12 +1859,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1872,7 +1879,7 @@ export class ReservationServiceClient {
   }
   updateBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateBiReservationRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IBiReservation,
@@ -1885,7 +1892,7 @@ export class ReservationServiceClient {
   >;
   updateBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateBiReservationRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: Callback<
       protos.google.cloud.bigquery.reservation.v1.IBiReservation,
       | protos.google.cloud.bigquery.reservation.v1.IUpdateBiReservationRequest
@@ -1933,7 +1940,7 @@ export class ReservationServiceClient {
   updateBiReservation(
     request: protos.google.cloud.bigquery.reservation.v1.IUpdateBiReservationRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | Callback<
           protos.google.cloud.bigquery.reservation.v1.IBiReservation,
           | protos.google.cloud.bigquery.reservation.v1.IUpdateBiReservationRequest
@@ -1959,12 +1966,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -1980,7 +1987,7 @@ export class ReservationServiceClient {
 
   listReservations(
     request: protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IReservation[],
@@ -1990,7 +1997,7 @@ export class ReservationServiceClient {
   >;
   listReservations(
     request: protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: PaginationCallback<
       protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
       | protos.google.cloud.bigquery.reservation.v1.IListReservationsResponse
@@ -2037,7 +2044,7 @@ export class ReservationServiceClient {
   listReservations(
     request: protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | PaginationCallback<
           protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
           | protos.google.cloud.bigquery.reservation.v1.IListReservationsResponse
@@ -2060,12 +2067,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -2104,7 +2111,7 @@ export class ReservationServiceClient {
    */
   listReservationsStream(
     request?: protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Transform {
     request = request || {};
     options = options || {};
@@ -2155,7 +2162,7 @@ export class ReservationServiceClient {
    */
   listReservationsAsync(
     request?: protos.google.cloud.bigquery.reservation.v1.IListReservationsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): AsyncIterable<protos.google.cloud.bigquery.reservation.v1.IReservation> {
     request = request || {};
     options = options || {};
@@ -2179,7 +2186,7 @@ export class ReservationServiceClient {
   }
   listCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment[],
@@ -2189,7 +2196,7 @@ export class ReservationServiceClient {
   >;
   listCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: PaginationCallback<
       protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
       | protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsResponse
@@ -2236,7 +2243,7 @@ export class ReservationServiceClient {
   listCapacityCommitments(
     request: protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | PaginationCallback<
           protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
           | protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsResponse
@@ -2259,12 +2266,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -2307,7 +2314,7 @@ export class ReservationServiceClient {
    */
   listCapacityCommitmentsStream(
     request?: protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Transform {
     request = request || {};
     options = options || {};
@@ -2358,7 +2365,7 @@ export class ReservationServiceClient {
    */
   listCapacityCommitmentsAsync(
     request?: protos.google.cloud.bigquery.reservation.v1.IListCapacityCommitmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): AsyncIterable<
     protos.google.cloud.bigquery.reservation.v1.ICapacityCommitment
   > {
@@ -2384,7 +2391,7 @@ export class ReservationServiceClient {
   }
   listAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IAssignment[],
@@ -2394,7 +2401,7 @@ export class ReservationServiceClient {
   >;
   listAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: PaginationCallback<
       protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
       | protos.google.cloud.bigquery.reservation.v1.IListAssignmentsResponse
@@ -2466,7 +2473,7 @@ export class ReservationServiceClient {
   listAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | PaginationCallback<
           protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
           | protos.google.cloud.bigquery.reservation.v1.IListAssignmentsResponse
@@ -2489,12 +2496,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -2538,7 +2545,7 @@ export class ReservationServiceClient {
    */
   listAssignmentsStream(
     request?: protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Transform {
     request = request || {};
     options = options || {};
@@ -2594,7 +2601,7 @@ export class ReservationServiceClient {
    */
   listAssignmentsAsync(
     request?: protos.google.cloud.bigquery.reservation.v1.IListAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): AsyncIterable<protos.google.cloud.bigquery.reservation.v1.IAssignment> {
     request = request || {};
     options = options || {};
@@ -2616,7 +2623,7 @@ export class ReservationServiceClient {
   }
   searchAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Promise<
     [
       protos.google.cloud.bigquery.reservation.v1.IAssignment[],
@@ -2626,7 +2633,7 @@ export class ReservationServiceClient {
   >;
   searchAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
-    options: gax.CallOptions,
+    options: CallOptions,
     callback: PaginationCallback<
       protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
       | protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsResponse
@@ -2704,7 +2711,7 @@ export class ReservationServiceClient {
   searchAssignments(
     request: protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
     optionsOrCallback?:
-      | gax.CallOptions
+      | CallOptions
       | PaginationCallback<
           protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
           | protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsResponse
@@ -2727,12 +2734,12 @@ export class ReservationServiceClient {
     ]
   > | void {
     request = request || {};
-    let options: gax.CallOptions;
+    let options: CallOptions;
     if (typeof optionsOrCallback === 'function' && callback === undefined) {
       callback = optionsOrCallback;
       options = {};
     } else {
-      options = optionsOrCallback as gax.CallOptions;
+      options = optionsOrCallback as CallOptions;
     }
     options = options || {};
     options.otherArgs = options.otherArgs || {};
@@ -2780,7 +2787,7 @@ export class ReservationServiceClient {
    */
   searchAssignmentsStream(
     request?: protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): Transform {
     request = request || {};
     options = options || {};
@@ -2840,7 +2847,7 @@ export class ReservationServiceClient {
    */
   searchAssignmentsAsync(
     request?: protos.google.cloud.bigquery.reservation.v1.ISearchAssignmentsRequest,
-    options?: gax.CallOptions
+    options?: CallOptions
   ): AsyncIterable<protos.google.cloud.bigquery.reservation.v1.IAssignment> {
     request = request || {};
     options = options || {};
