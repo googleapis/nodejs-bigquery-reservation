@@ -1,5 +1,13 @@
 # Changelog
 
+### [1.1.7](https://www.github.com/googleapis/nodejs-bigquery-reservation/compare/v1.1.6...v1.1.7) (2021-08-17)
+
+
+### Bug Fixes
+
+* **build:** migrate to using main branch ([#97](https://www.github.com/googleapis/nodejs-bigquery-reservation/issues/97)) ([2e5a332](https://www.github.com/googleapis/nodejs-bigquery-reservation/commit/2e5a332b21067dd73ec6d2b218b87b61b8ebf59e))
+* **deps:** google-gax v2.24.1 ([#99](https://www.github.com/googleapis/nodejs-bigquery-reservation/issues/99)) ([3a4cdec](https://www.github.com/googleapis/nodejs-bigquery-reservation/commit/3a4cdec8d028f0d6fd6d8ebc3977c00231b290bb))
+
 ### [1.1.6](https://www.github.com/googleapis/nodejs-bigquery-reservation/compare/v1.1.5...v1.1.6) (2021-07-21)
 
 
